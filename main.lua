@@ -2,7 +2,6 @@
 local triangles = {}
 local mouseWasDown = false
 local mWasDown = false
-local nWasDown = false
 
 local showDots = true
 local currColor = {1,1,1}
@@ -50,27 +49,22 @@ function love.draw()
     if love.keyboard.isDown('n') then
         -- show color selector
         local width, height = love.graphics.getDimensions()
+        local slices, blockWidth
 
         for u = 0,width-1 do
             for v = 0,height-1 do
-                local slices = 100
-                local blockWidth = (width-1)/slices
+                slices = 100
+                blockWidth = (width-1)/slices
                 love.graphics.setColor((u%blockWidth)/(blockWidth-1), v/(height-1), u/blockWidth/slices)
                 love.graphics.rectangle("fill", u, v, 1, 1)
             end
         end
-    end
 
-    if not love.keyboard.isDown('n') and nWasDown then
-        local width, height = love.graphics.getDimensions()
         local u = love.mouse.getX()
         local v = love.mouse.getY()
-        local slices = 100
-        local blockWidth = (width-1)/slices
         currColor = {(u%blockWidth)/(blockWidth-1), v/(height-1), u/blockWidth/slices}
     end
 
     mouseWasDown = love.mouse.isDown(1)
     mWasDown = love.keyboard.isDown('m')
-    nWasDown = love.keyboard.isDown('n')
 end
