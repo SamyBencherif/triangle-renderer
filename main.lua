@@ -7,26 +7,35 @@ local nWasDown = false
 local showDots = true
 local currColor = {1,1,1}
 
+function slice(arr, start, stop)
+    -- return elements in the range [start, end] inclusive
+    local out = {}
+    for i=0,stop-start do
+        out[i+1] = arr[start+i]
+    end
+    return out
+end
+
 function love.draw()
 
     for i=1,#triangles do
-        if #triangles[i] >= 6 then
-            love.graphics.setColor(currColor[1], currColor[2], currColor[3])
-            love.graphics.polygon("fill", triangles[i])
+        if #triangles[i] >= 9 then
+            love.graphics.setColor(slice(triangles[i], 1, 3))
+            love.graphics.polygon("fill", slice(triangles[i], 4, #triangles[i]))
         end
 
         if showDots then
             love.graphics.setColor(1, 1, 1)
-            for u=1,#triangles[i]/2 do
-                love.graphics.circle("fill", triangles[i][2*u-1], triangles[i][2*u], 3)
+            for u=1,#slice(triangles[i], 4, #triangles[i])/2 do
+                love.graphics.circle("fill", triangles[i][3+2*u-1], triangles[i][3+2*u], 3)
             end
         end
     end
 
     if love.mouse.isDown(1) and not mouseWasDown then
-        if not triangles[#triangles] or #triangles[#triangles] == 6 then
-            -- if there is nothing on screen or the last triangle is complete, make a new triangle
-            triangles[#triangles+1] = {love.mouse.getX(), love.mouse.getY()}
+        if not triangles[#triangles] or #triangles[#triangles] == 9 then
+            -- if there is nothing on screen or the last triangle is complete, start a new triangle
+            triangles[#triangles+1] = {currColor[1], currColor[2], currColor[3], love.mouse.getX(), love.mouse.getY()}
         else
             -- otherwise add a vertex to the current triangle
             triangles[#triangles][#triangles[#triangles]+1] = love.mouse.getX()
