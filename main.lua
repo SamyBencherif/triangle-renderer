@@ -63,6 +63,11 @@ function love.draw()
         local u = love.mouse.getX()
         local v = love.mouse.getY()
         currColor = {(u%blockWidth)/(blockWidth-1), v/(height-1), u/blockWidth/slices}
+
+        love.graphics.setColor(currColor[1], currColor[2], currColor[3])
+        love.graphics.rectangle("fill", u-5, v-5, 10, 10)
+        love.graphics.setColor(1, 1, 1)
+        love.graphics.rectangle("line", u-5, v-5, 10, 10)
     end
 
     mouseWasDown = love.mouse.isDown(1)
