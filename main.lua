@@ -1,3 +1,7 @@
+-- Triangle renderer by Samy Bencherif 2025-05-08
+-- filename: main.lua
+-- to run: love .
+-- dependencies: https://love2d.org/#download
 
 local triangles = {}
 local mouseWasDown = false
